@@ -1,0 +1,121 @@
+<!--
+
+** 웹팩을 쓰는 이유 
+html 하나만 있어도 js 를 쓸 수 있음 
+실무에서 component 를 하나로 하는 경우는 없음 
+webpack : 여러개의 js 를 하나의 js 파일로 만들어주는 기술 
+          바벨적용도 되고 필요없는 코드도 삭제 
+node : js 실행기 
+    
+1. package.json 파일 만들기 
+   ㄴ 해당폴더 경로로 이동 cd filname
+   ㄴ npm init ( package.json 파일 생성 )
+   ㄴ npm i react react-dom ( react react-dom 생성 )
+   ㄴ npm i -D webpack webpack-cli
+실제 서비스에 쓰이는 것들은 dependencies 에 기록
+개발에만 쓰이는 것들은     devDependencies 에 기록
+ㄴ (npm i -D webpack webpack-cli >> cli 가 개발에서만 쓰이니까 그때 등록되게 )
+
+2. webpack.cofig.js 생성
+3. client.jsx 생성
+4. index.html 생성 
+>> 이 모든걸 해주는게 creat-react-app 
+
+- jsx : 리액트용 
+
+webpack 설정 후 터미널에 webpack > command not found 에러 ?
+ㄴ 명령어로 등록되지 않았기 때문
+ㄴ 1. package.json 에서 scripts. 에서 "dev": "webpack" 등록 
+ㄴ 2. npx webpack 
+
+하고 나면 dist 폴더 안에 app.js 가 생긴다 but error ! 
+ㄴ jsx 파일을 읽지 못해서 > 바벨을 깔고 바벨 내 jsx 설정을 해줘야함
+
+* 바벨 깔기 : -D ( 개발용으로만 설치한다는 의미 )
+    : npm i -D @babel/core
+    : npm i -D @babel/preset-env 
+      ㄴ 내 브라우저에 맞게 최신 문법을 옛날 문법 지원
+    : npm i -D @babel/preset-react
+      ㄴ jsx 지원
+    : npm i babel-loader 
+      ㄴ 바벨과 webpack 연결 
+
+
+      ** 총정리 
+      1. 터미널 열고 해당폴더 경로로 이동 cd filname
+      2. npm init ( package.json 파일 생성 )
+      3. npm i react react-dom ( react react-dom 생성 )
+      4. npm i -D webpack webpack-cli
+
+      5. npm i babel-loader @babel/core
+      6. npm i -D @babel/preset-env         : 브라우저맞게 문법 지원
+      7. npm i -D @babel/preset-react       : jsx 쓸 수 있게 
+      8. webpack.config.js 파일 생성
+      9. client.jsx / Gugudan.jsx 생성
+
+      ** preset 에서 env 설정할때 brower 버전들 확인하고 싶다면 
+         https://github.com/browerlist/browserslist#queries
+
+      ** mode - entry - module - plugin - output 순서로 생각 ! 
+
+  * 핫리로딩하는 패키지 2개
+      : npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D
+      : npm i -D webpack-dev-server   (프론트용 개발 서버)
+      > package.json 파일에서 아래사항 추가됐는지 확인 
+      1. "webpack-dev-server": "^4.15.1"
+      2. "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11"
+      3. "react-refresh": "^0.14.0"
+
+       + 스크립트에 dev 수정 
+      "scripts": {
+      "dev": "webpack serve --env development"    ** 이렇게 수정해주기 
+      },
+
+       + webpack.config.js 수정
+       - 선언
+       const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'); 
+       - plugin 에 추가
+       ㄴ new RefreshWebpackPlugin()
+       - module > presets - options - plugins 에 추가
+       ㄴ 'react-refresh/babel'
+       - 프론트용서버 추가  (변경점이 생기면 결과물을 수정해줌 )
+       ㄴ  devServer: {
+        devMiddleware: { publicPath: '/dist' },
+        // index.html 실제 정적파일의 경로 > static 
+        // ㄴ 현재폴더 : __dirname
+        // ㄴ src폴더에 있을 경우 : __dirname , 'src'  
+        static: { directory: path.resolve(__dirname) } , 
+        hot: true,
+        },
+
+  * input 의 두가지  [ controlled input / uncontrolled input ]
+        1. controlled input   [권장]
+          ㄴ value (state) onchange (setvalue) 의 구성
+        2. uncontrolled input [권장x . 간단]
+          ㄴ value, onChange 없이 <input ref={inputEl}> 이렇게만 있는 형태 (원시적)
+          ㄴ 초기값을 넣고싶으면 defaultValue = ''; value(x)
+          ㄴ value 가  onSubmit 에서만 특정 동작을 하는 경우 사용 
+          (ex)
+          const onSubmitForm = (e) => {
+        e.preventDefault();
+        if (word[word.length - 1] === e.target.children.word.value) { // e.target.children.word 또는 e.target[0]
+            setResult('딩동댕');
+            setWord(e.target.children.word.value);
+           * value(''); >> e.target.children.word.value = '';
+            inputRef.current.focus();
+        }
+        else {
+            setResult('땡');
+            * value(''); >> e.target.children.word.value = '';
+            inputRef.current.focus();
+        }
+       };  
+
+       <input id="word" ref="inputEl" />
+
+
+
+
+
+       
+-->

@@ -1,0 +1,30 @@
+<!-- 
+    ** require vs import
+
+    1. require
+        : NumberBaseball.jsx 에서 class NumberBassball 을 만들고
+          module.exports = NumberBaseball; 을 하면
+          client.jsx 에서 require 해서 쓸 수가 있음 
+
+
+    export default NumberBaseball != module.exports    > 같진 않지만 호환된다로 알아두면 됨 
+
+    node : require
+    react : import / export 
+    ㄴ 디폴트가 다르지만 거의 호환이 됨
+    webpack 은 노드가 실행하기 때문에 const 로 써야함
+    clinet 같은 애들은 babel 이 돌려주기 때문에 가능   
+
+
+* ex)  module.exports = NumberBaseball; 
+export const hello = 'hello';    // 가져올때     > import { hello }
+export const bye = ' hello';     //            > import { hello, bye } 
+export default NumberBaseball;   // Es2015 모듈 문법 > import NumberBaseball
+// export default NumberBaseball != module.exports    > 같진 않지만 호환된다로 알아두면 됨 
+
+value={this.state.value} onChange={this.onChange} 이렇게 무조건 세트 
+또는 defaultValue={this.state.value}
+
+
+** map : react 에서 반복문을 쓰는 방법 
+ -->
